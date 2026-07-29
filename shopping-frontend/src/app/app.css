@@ -1,44 +1,46 @@
 /* ============================================
-   VARIABLES Y BASE (Mobile First)
+   PALETA PASTEL Y BASE MINIMALISTA
    ============================================ */
 :root {
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --primary-light: #e0e7ff;
-  --accent: #10b981;
-  --danger: #ef4444;
-  --danger-hover: #dc2626;
-  --bg-app: #f8fafc;
-  --surface: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  --radius-lg: 20px;
-  --radius-md: 12px;
-  --radius-sm: 8px;
+  --bg-app: #f4f8fc;            /* Azul ultra claro / pastel de fondo */
+  --surface: #ffffff;           /* Blanco limpio para tarjetas */
+  --surface-subtle: #ebf3fa;    /* Azul pastel suave para botones secundarios */
+
+  --primary: #5c7cfa;           /* Azul pastel principal */
+  --primary-hover: #4c6ef5;
+  --primary-light: #dbe4ff;     /* Azul pastel muy claro */
+
+  --accent: #51cf66;            /* Verde menta pastel para completado */
+  --danger-pastel: #ff8787;     /* Rojo pastel suave para eliminar */
+  --danger-bg: #fff5f5;
+
+  --text-main: #2b3a4a;         /* Azul muy oscuro suave (nada de negro puro) */
+  --text-muted: #8295a9;        /* Gris azulado para notas */
+  --border: #e2eafd;            /* Borde azul pastel imperceptible */
+
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+  --shadow-soft: 0 4px 20px rgba(92, 124, 250, 0.05);
 }
 
 * {
   box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
   background-color: var(--bg-app);
   color: var(--text-main);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 950px;
   margin: 0 auto;
-  padding: 16px;
-  padding-bottom: 40px;
+  padding: 20px;
 }
 
 /* ============================================
@@ -48,7 +50,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .header-title {
@@ -58,38 +60,37 @@ body {
 }
 
 .header h1 {
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 700;
   margin: 0;
   color: var(--text-main);
-  letter-spacing: -0.5px;
 }
 
 .badge {
   background-color: var(--primary-light);
   color: var(--primary);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.8rem;
-  padding: 4px 10px;
+  padding: 3px 10px;
   border-radius: 20px;
 }
 
 .btn-reset {
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
-  color: white;
+  background-color: var(--primary-light);
+  color: var(--primary);
   border: none;
-  padding: 12px 18px;
+  padding: 10px 16px;
   border-radius: var(--radius-md);
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: all 0.2s ease;
   width: 100%;
 }
 
-.btn-reset:active {
-  transform: scale(0.98);
+.btn-reset:hover {
+  background-color: var(--primary);
+  color: white;
 }
 
 /* ============================================
@@ -98,81 +99,78 @@ body {
 .grid-layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 24px;
 }
 
 .card {
   background: var(--surface);
   border-radius: var(--radius-lg);
-  padding: 20px;
-  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
   border: 1px solid var(--border);
 }
 
 .card h2 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   margin-top: 0;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   color: var(--text-main);
 }
 
 .card h3 {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-muted);
   margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .divider {
   border: 0;
   height: 1px;
   background: var(--border);
-  margin: 20px 0;
+  margin: 24px 0;
 }
 
 /* ============================================
-   SECCIÓN 1: CATÁLOGO RÁPIDO
+   CATÁLOGO RÁPIDO
    ============================================ */
 .catalog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 10px;
 }
 
 .catalog-btn {
-  background-color: #f1f5f9;
+  background-color: var(--bg-app);
   border: 1px solid transparent;
   border-radius: var(--radius-md);
-  padding: 12px 8px;
+  padding: 10px 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .catalog-btn:hover {
   background-color: var(--primary-light);
-  border-color: #c7d2fe;
-}
-
-.catalog-btn:active {
-  transform: scale(0.95);
+  transform: translateY(-2px);
 }
 
 .catalog-btn .emoji {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 }
 
 .catalog-btn .name {
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-main);
   text-align: center;
   line-height: 1.1;
-  word-break: break-word;
 }
 
 /* FORMULARIO PERSONALIZADO */
@@ -188,20 +186,20 @@ body {
 }
 
 .input-emoji {
-  width: 55px;
+  width: 50px;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .input-text, .input-emoji {
-  padding: 12px 14px;
+  padding: 10px 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  background-color: #f8fafc;
-  font-size: 0.95rem;
+  background-color: var(--bg-app);
+  font-size: 0.9rem;
   color: var(--text-main);
   outline: none;
-  transition: border-color 0.2s, background-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .input-text {
@@ -211,32 +209,30 @@ body {
 .input-text:focus, .input-emoji:focus {
   border-color: var(--primary);
   background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
 .btn-add {
   background-color: var(--primary);
   color: white;
   border: none;
-  padding: 14px;
+  padding: 12px;
   border-radius: var(--radius-md);
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.25);
   transition: background-color 0.2s;
 }
 
-.btn-add:active {
+.btn-add:hover {
   background-color: var(--primary-hover);
 }
 
 /* ============================================
-   SECCIÓN 2: LISTA ACTIVA
+   LISTA DE LA COMPRA ACTIVA
    ============================================ */
 .shopping-list {
   list-style: none;
@@ -244,34 +240,30 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .shopping-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  background-color: #ffffff;
-  border: 1px solid var(--border);
-  padding: 12px 14px;
+  background-color: var(--bg-app);
+  padding: 10px 14px;
   border-radius: var(--radius-md);
   transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .shopping-item.completed {
+  opacity: 0.5;
   background-color: #f8fafc;
-  border-color: #f1f5f9;
-  opacity: 0.65;
 }
 
 .shopping-item.completed .item-name {
   text-decoration: line-through;
-  color: var(--text-muted);
 }
 
 .shopping-item .emoji {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   flex-shrink: 0;
 }
 
@@ -285,47 +277,40 @@ body {
 
 .item-name {
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-main);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .input-comment {
   border: none;
   background: transparent;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
   padding: 0;
   outline: none;
 }
 
-.input-comment:focus {
-  color: var(--primary);
-}
-
 .btn-delete {
   background: transparent;
   border: none;
-  font-size: 1.1rem;
+  font-size: 1rem;
   cursor: pointer;
   padding: 6px;
   border-radius: var(--radius-sm);
-  transition: background-color 0.2s;
-  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s;
 }
 
-.btn-delete:active {
-  background-color: #fee2e2;
+.btn-delete:hover {
+  opacity: 1;
 }
 
-/* CHECKBOX PERSONALIZADO (Touch Friendly) */
+/* CHECKBOX MINIMALISTA */
 .custom-checkbox {
   position: relative;
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   cursor: pointer;
 }
@@ -340,10 +325,10 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  height: 24px;
-  width: 24px;
-  background-color: #f1f5f9;
-  border: 2px solid #cbd5e1;
+  height: 20px;
+  width: 20px;
+  background-color: #ffffff;
+  border: 2px solid var(--border);
   border-radius: 6px;
   transition: all 0.2s ease;
 }
@@ -361,105 +346,82 @@ body {
 
 .custom-checkbox input:checked ~ .checkmark:after {
   display: block;
-  left: 7px;
-  top: 3px;
-  width: 5px;
-  height: 10px;
+  left: 6px;
+  top: 2px;
+  width: 4px;
+  height: 9px;
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 
-/* ESTADOS VACÍOS & CARGANDO */
+/* ESTADOS VACÍOS */
 .empty-state {
   text-align: center;
-  padding: 40px 20px;
+  padding: 30px 10px;
 }
 
 .empty-icon {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .empty-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 4px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-main);
 }
 
 .empty-subtitle {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
-  margin: 0;
-}
-
-.status-msg {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px;
-  gap: 12px;
-  color: var(--text-muted);
-}
-
-.spinner {
-  width: 28px;
-  height: 28px;
-  border: 3px solid var(--border);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+  margin-top: 4px;
 }
 
 /* ============================================
-   MODAL DE CONFIRMACIÓN
+   MODAL MINIMALISTA CORREGIDO
    ============================================ */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(4px);
+  background-color: rgba(43, 58, 74, 0.3);
+  backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   z-index: 9999;
-  animation: fadeIn 0.15s ease-out;
 }
 
 .modal-card {
-  background: #ffffff;
+  background: var(--surface);
   padding: 24px;
   border-radius: var(--radius-lg);
   width: 100%;
-  max-width: 360px;
+  max-width: 320px;
   text-align: center;
-  box-shadow: var(--shadow-lg);
-  animation: scaleUp 0.15s ease-out;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border: 1px solid var(--border);
 }
 
 .modal-icon {
-  font-size: 2.8rem;
-  margin-bottom: 8px;
+  font-size: 2.2rem;
+  margin-bottom: 6px;
 }
 
 .modal-card h3 {
   margin: 0 0 6px 0;
   color: var(--text-main);
-  font-size: 1.25rem;
-  font-weight: 800;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 .modal-card p {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin: 0 0 20px 0;
-  line-height: 1.4;
 }
 
 .modal-actions {
@@ -469,43 +431,25 @@ body {
 
 .modal-actions button {
   flex: 1;
-  padding: 12px;
+  padding: 10px;
   border-radius: var(--radius-md);
   border: none;
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-weight: 600;
+  font-size: 0.85rem;
   cursor: pointer;
-  transition: opacity 0.2s;
 }
 
 .btn-modal-cancel {
-  background-color: #f1f5f9;
+  background-color: var(--surface-subtle);
   color: var(--text-main);
 }
 
 .btn-modal-delete {
-  background-color: var(--danger);
-  color: white;
-  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+  background-color: var(--danger-pastel);
+  color: #ffffff;
 }
 
-.btn-modal-cancel:active, .btn-modal-delete:active {
-  opacity: 0.8;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes scaleUp {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-/* ============================================
-   RESPONSIVE (Escritorio / Tablets)
-   ============================================ */
+/* RESPONSIVE */
 @media (min-width: 768px) {
   .header {
     flex-direction: row;

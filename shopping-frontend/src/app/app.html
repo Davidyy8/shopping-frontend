@@ -1,0 +1,105 @@
+<div class="container">
+  <header class="header">
+    <h1>🛒 Lista de la Compra</h1>
+    @if (shoppingService.shoppingList().length > 0) {
+      <button class="btn-reset" (click)="onResetList()">
+        🎉 Finalizar Compra (Reiniciar)
+      </button>
+    }
+  </header>
+
+  <main class="grid-layout">
+    <!-- SECCIÓN 1: CATÁLOGO RÁPIDO & AÑADIR -->
+    <section class="card">
+      <h2>Catálogo Rápido</h2>
+      <div class="catalog-grid">
+        @for (item of shoppingService.catalog(); track item.id) {
+          <button class="catalog-btn" (click)="addFromCatalog(item)">
+            <span class="emoji">{{ item.emoji }}</span>
+            <span class="name">{{ item.name }}</span>
+          </button>
+        }
+      </div>
+
+      <hr class="divider" />
+
+      <h3>¿No está en la lista? Añade uno personalizado</h3>
+      <form (submit)="addCustomItem()" class="custom-form">
+        <div class="form-group row">
+          <input
+            type="text"
+            [(ngModel)]="customEmoji"
+            name="customEmoji"
+            placeholder="Emoji"
+            class="input-emoji"
+            maxLength="2"
+          />
+          <input
+            type="text"
+            [(ngModel)]="customName"
+            name="customName"
+            placeholder="Nombre del artículo..."
+            class="input-text"
+            required
+          />
+        </div>
+        <input
+          type="text"
+          [(ngModel)]="customComment"
+          name="customComment"
+          placeholder="Nota / Comentario (ej: Desnatada, 1kg...)"
+          class="input-text"
+        />
+        <button type="submit" class="btn-add">+ Añadir a la Lista</button>
+      </form>
+    </section>
+
+    <!-- SECCIÓN 2: LISTA DE LA COMPRA ACTIVA -->
+    <section class="card">
+      <h2>Mi Cesta Active ({{ shoppingService.shoppingList().length }})</h2>
+
+      @if (shoppingService.loading()) {
+        <p class="status-msg">Cargando la lista...</p>
+      } @else if (shoppingService.shoppingList().length === 0) {
+        <div class="empty-state">
+          <span>🧺</span>
+          <p>Tu cesta está vacía. Añade elementos desde el catálogo.</p>
+        </div>
+      } @else {
+        <ul class="shopping-list">
+          @for (item of shoppingService.shoppingList(); track item.id) {
+            <li class="shopping-item" [class.completed]="item.is_completed">
+              <input
+                type="checkbox"
+                [checked]="item.is_completed"
+                (change)="toggleCompleted(item.id, item.is_completed)"
+                class="checkbox"
+              />
+
+              <span class="emoji">
+                {{ item.catalog_item?.emoji || item.custom_emoji }}
+              </span>
+
+              <div class="item-info">
+                <span class="item-name">
+                  {{ item.catalog_item?.name || item.custom_name }}
+                </span>
+                <input
+                  type="text"
+                  [value]="item.comment"
+                  (blur)="updateComment(item.id, $event)"
+                  placeholder="Añadir nota..."
+                  class="input-comment"
+                />
+              </div>
+
+              <button class="btn-delete" (click)="removeItem(item.id)" title="Eliminar">
+                🗑️
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </main>
+</div>

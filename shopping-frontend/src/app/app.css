@@ -1,468 +1,377 @@
-/* ============================================
-   PALETA PASTEL Y BASE MINIMALISTA
-   ============================================ */
+/* ==========================================================================
+   1. SISTEMA DE DISEÑO & VARIABLES (:root)
+   Inspirado en Tailwind UI & Notion Soft Theme
+   ========================================================================== */
 :root {
-  --bg-app: #f4f8fc;            /* Azul ultra claro / pastel de fondo */
-  --surface: #ffffff;           /* Blanco limpio para tarjetas */
-  --surface-subtle: #ebf3fa;    /* Azul pastel suave para botones secundarios */
+  /* Paleta Pastel Principal */
+  --bg-app: #f4f8fc;             /* Azul/Grisáceo ultra claro para el canvas principal */
+  --surface: #ffffff;            /* Blanco puro para tarjetas elevadas */
+  --surface-subtle: #ebf3fa;     /* Superficie secundaria / hover suave */
 
-  --primary: #5c7cfa;           /* Azul pastel principal */
-  --primary-hover: #4c6ef5;
-  --primary-light: #dbe4ff;     /* Azul pastel muy claro */
+  /* Colores de Marca y Estado */
+  --primary: #5c7cfa;            /* Azul pastel moderado */
+  --primary-hover: #4c6ef5;      /* Azul pastel ligeramente más saturado */
+  --primary-light: #dbe4ff;      /* Fondo activo / chips */
 
-  --accent: #51cf66;            /* Verde menta pastel para completado */
-  --danger-pastel: #ff8787;     /* Rojo pastel suave para eliminar */
+  --accent-mint: #51cf66;        /* Verde menta suave (Éxito / Completado) */
+  --accent-mint-bg: #e6fcf5;
+
+  --danger-pastel: #ff8787;      /* Rojo pastel suave (Destructivo / Eliminar) */
+  --danger-hover: #fa5252;
   --danger-bg: #fff5f5;
 
-  --text-main: #2b3a4a;         /* Azul muy oscuro suave (nada de negro puro) */
-  --text-muted: #8295a9;        /* Gris azulado para notas */
-  --border: #e2eafd;            /* Borde azul pastel imperceptible */
+  /* Tipografía y Textos (Evitando negro puro #000) */
+  --text-main: #2b3a4a;          /* Azul pizarra oscuro para alta legibilidad */
+  --text-muted: #8295a9;         /* Gris azulado para notas y metadatos */
+  --text-placeholder: #a0aec0;
 
-  --radius-lg: 16px;
-  --radius-md: 10px;
-  --radius-sm: 6px;
-  --shadow-soft: 0 4px 20px rgba(92, 124, 250, 0.05);
+  /* Bordes y Sombras Sutiles */
+  --border-color: #e2eafd;       /* Borde imperceptible */
+  --border-radius-lg: 16px;      /* Esquinas de contenedor grandes */
+  --border-radius-md: 12px;      /* Tarjetas internas / botones */
+  --border-radius-sm: 8px;       /* Inputs / elementos pequeños */
+
+  /* Elevación (Soft Shadows) */
+  --shadow-sm: 0 2px 8px rgba(92, 124, 250, 0.04);
+  --shadow-md: 0 8px 24px rgba(92, 124, 250, 0.08);
+  --shadow-overlay: 0 16px 32px rgba(43, 58, 74, 0.12);
+
+  /* Transiciones */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-* {
+/* ==========================================================================
+   2. REGLAS BASE & RESET
+   ========================================================================== */
+*, *::before, *::after {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
   background-color: var(--bg-app);
   color: var(--text-main);
-  margin: 0;
-  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+               'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.container {
-  max-width: 950px;
+/* Contenedor Principal */
+.app-container {
+  max-width: 1024px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 1.5rem;
 }
 
-/* ============================================
-   HEADER
-   ============================================ */
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.header-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.header h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
-  color: var(--text-main);
-}
-
-.badge {
-  background-color: var(--primary-light);
-  color: var(--primary);
-  font-weight: 600;
-  font-size: 0.8rem;
-  padding: 3px 10px;
-  border-radius: 20px;
-}
-
-.btn-reset {
-  background-color: var(--primary-light);
-  color: var(--primary);
-  border: none;
-  padding: 10px 16px;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%;
-}
-
-.btn-reset:hover {
-  background-color: var(--primary);
-  color: white;
-}
-
-/* ============================================
-   LAYOUT GRID
-   ============================================ */
-.grid-layout {
+/* ==========================================================================
+   3. DISPOSICIÓN Y GRID (Mobile First -> Desktop 2 Columnas)
+   ========================================================================== */
+.main-layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 1.5rem;
+  align-items: start;
 }
 
-.card {
+@media (min-width: 768px) {
+  .main-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Tarjetas Contenedoras */
+.card-panel {
   background: var(--surface);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid var(--border);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-normal);
 }
 
-.card h2 {
-  font-size: 1.1rem;
+.card-panel:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Encabezados Minimalistas */
+.section-title {
+  font-size: 1.15rem;
   font-weight: 700;
-  margin-top: 0;
-  margin-bottom: 18px;
   color: var(--text-main);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.card h3 {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.divider {
-  border: 0;
-  height: 1px;
-  background: var(--border);
-  margin: 24px 0;
-}
-
-/* ============================================
-   CATÁLOGO RÁPIDO
-   ============================================ */
+/* ==========================================================================
+   4. UI COMPONENT: CATÁLOGO DE BOTONES RÁPIDOS
+   ========================================================================== */
 .catalog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  gap: 0.75rem;
 }
 
-.catalog-btn {
+.catalog-card-btn {
   background-color: var(--bg-app);
   border: 1px solid transparent;
-  border-radius: var(--radius-md);
-  padding: 10px 6px;
+  border-radius: var(--border-radius-md);
+  padding: 0.85rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 0.4rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  outline: none;
+  transition: transform var(--transition-fast),
+              background-color var(--transition-fast),
+              border-color var(--transition-fast);
 }
 
-.catalog-btn:hover {
+.catalog-card-btn .emoji-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.catalog-card-btn .item-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-main);
+  text-align: center;
+  word-break: break-word;
+}
+
+.catalog-card-btn:hover {
   background-color: var(--primary-light);
+  border-color: rgba(92, 124, 250, 0.2);
   transform: translateY(-2px);
 }
 
-.catalog-btn .emoji {
-  font-size: 1.6rem;
+.catalog-card-btn:active {
+  transform: translateY(0) scale(0.97);
 }
 
-.catalog-btn .name {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--text-main);
-  text-align: center;
-  line-height: 1.1;
-}
-
-/* FORMULARIO PERSONALIZADO */
-.custom-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.form-group.row {
-  display: flex;
-  gap: 8px;
-}
-
-.input-emoji {
-  width: 50px;
-  text-align: center;
-  font-size: 1.1rem;
-}
-
-.input-text, .input-emoji {
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background-color: var(--bg-app);
-  font-size: 0.9rem;
-  color: var(--text-main);
-  outline: none;
-  transition: all 0.2s ease;
-}
-
-.input-text {
-  flex: 1;
-}
-
-.input-text:focus, .input-emoji:focus {
-  border-color: var(--primary);
-  background-color: #ffffff;
-}
-
-.btn-add {
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: background-color 0.2s;
-}
-
-.btn-add:hover {
-  background-color: var(--primary-hover);
-}
-
-/* ============================================
-   LISTA DE LA COMPRA ACTIVA
-   ============================================ */
-.shopping-list {
+/* ==========================================================================
+   5. UI COMPONENT: LISTA DE ÍTEMS INTEGRADA
+   ========================================================================== */
+.item-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.6rem;
 }
 
-.shopping-item {
+.item-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.85rem;
   background-color: var(--bg-app);
-  padding: 10px 14px;
-  border-radius: var(--radius-md);
-  transition: all 0.2s ease;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid transparent;
+  transition: all var(--transition-normal);
 }
 
-.shopping-item.completed {
-  opacity: 0.5;
+.item-row:hover {
+  border-color: var(--border-color);
   background-color: #f8fafc;
 }
 
-.shopping-item.completed .item-name {
-  text-decoration: line-through;
-}
-
-.shopping-item .emoji {
-  font-size: 1.4rem;
-  flex-shrink: 0;
-}
-
-.item-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.item-name {
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--text-main);
-}
-
-.input-comment {
-  border: none;
-  background: transparent;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  padding: 0;
-  outline: none;
-}
-
-.btn-delete {
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: var(--radius-sm);
-  opacity: 0.6;
-  transition: opacity 0.2s;
-}
-
-.btn-delete:hover {
-  opacity: 1;
-}
-
-/* CHECKBOX MINIMALISTA */
-.custom-checkbox {
+/* Checkbox Minimalista Redondeado */
+.custom-checkbox-label {
   position: relative;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
-.custom-checkbox input {
+.custom-checkbox-label input[type="checkbox"] {
   opacity: 0;
   width: 0;
   height: 0;
-}
-
-.checkmark {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: #ffffff;
-  border: 2px solid var(--border);
-  border-radius: 6px;
-  transition: all 0.2s ease;
 }
 
-.custom-checkbox input:checked ~ .checkmark {
-  background-color: var(--accent);
-  border-color: var(--accent);
+.checkbox-visual {
+  width: 100%;
+  height: 100%;
+  background-color: var(--surface);
+  border: 2px solid var(--border-color);
+  border-radius: 50%; /* 100% redondeado estilo iOS */
+  transition: all var(--transition-fast);
 }
 
-.checkmark:after {
-  content: "";
+.custom-checkbox-label input:checked ~ .checkbox-visual {
+  background-color: var(--accent-mint);
+  border-color: var(--accent-mint);
+}
+
+.custom-checkbox-label input:checked ~ .checkbox-visual::after {
+  content: '';
   position: absolute;
-  display: none;
-}
-
-.custom-checkbox input:checked ~ .checkmark:after {
-  display: block;
-  left: 6px;
-  top: 2px;
+  top: 5px;
+  left: 8px;
   width: 4px;
-  height: 9px;
+  height: 8px;
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 
-/* ESTADOS VACÍOS */
-.empty-state {
-  text-align: center;
-  padding: 30px 10px;
+/* Detalles del Ítem */
+.item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
-.empty-icon {
-  font-size: 2.5rem;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.empty-title {
-  font-size: 0.95rem;
+.item-name {
   font-weight: 600;
-  margin: 0;
+  font-size: 0.925rem;
   color: var(--text-main);
+  transition: color var(--transition-fast);
 }
 
-.empty-subtitle {
-  font-size: 0.8rem;
+/* Estado completado */
+.item-row.completed {
+  opacity: 0.55;
+}
+
+.item-row.completed .item-name {
+  text-decoration: line-through;
   color: var(--text-muted);
-  margin-top: 4px;
 }
 
-/* ============================================
-   MODAL MINIMALISTA CORREGIDO
-   ============================================ */
-.modal-backdrop {
+/* Botón de Acción Sutil (Solo aparece al pasar el cursor) */
+.action-btn-ghost {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: var(--border-radius-sm);
+  opacity: 0.3; /* Opacidad baja por defecto */
+  transition: opacity var(--transition-fast), background-color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.item-row:hover .action-btn-ghost {
+  opacity: 1; /* Gana 100% opacidad en hover del contenedor */
+}
+
+.action-btn-ghost:hover {
+  background-color: var(--danger-bg);
+  color: var(--danger-pastel);
+}
+
+/* ==========================================================================
+   6. UI COMPONENT: MODAL DE CONFIRMACIÓN (Backdrop Blur)
+   ========================================================================== */
+.modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(43, 58, 74, 0.3);
-  backdrop-filter: blur(3px);
+  background-color: rgba(43, 58, 74, 0.25);
+  backdrop-filter: blur(6px); /* Efecto desenfoque moderno */
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  z-index: 9999;
+  padding: 1.25rem;
+  z-index: 1000;
+  animation: fadeIn var(--transition-fast);
 }
 
 .modal-card {
-  background: var(--surface);
-  padding: 24px;
-  border-radius: var(--radius-lg);
+  background-color: var(--surface);
+  border-radius: var(--border-radius-lg);
+  padding: 1.75rem;
   width: 100%;
-  max-width: 320px;
+  max-width: 340px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  border: 1px solid var(--border);
+  box-shadow: var(--shadow-overlay);
+  border: 1px solid var(--border-color);
+  animation: scaleUp var(--transition-normal);
 }
 
 .modal-icon {
-  font-size: 2.2rem;
-  margin-bottom: 6px;
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+  display: inline-block;
 }
 
-.modal-card h3 {
-  margin: 0 0 6px 0;
-  color: var(--text-main);
-  font-size: 1.1rem;
+.modal-title {
+  font-size: 1.15rem;
   font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.35rem;
 }
 
-.modal-card p {
+.modal-description {
+  font-size: 0.875rem;
   color: var(--text-muted);
-  font-size: 0.85rem;
-  margin: 0 0 20px 0;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
 }
 
 .modal-actions {
   display: flex;
-  gap: 10px;
+  gap: 0.75rem;
 }
 
-.modal-actions button {
+/* Botones genéricos de UI */
+.btn {
   flex: 1;
-  padding: 10px;
-  border-radius: var(--radius-md);
-  border: none;
+  padding: 0.65rem 1rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid transparent;
+  font-size: 0.875rem;
   font-weight: 600;
-  font-size: 0.85rem;
   cursor: pointer;
+  outline: none;
+  transition: all var(--transition-fast);
 }
 
-.btn-modal-cancel {
+.btn-secondary {
   background-color: var(--surface-subtle);
   color: var(--text-main);
 }
 
-.btn-modal-delete {
+.btn-secondary:hover {
+  background-color: #e2ebf4;
+}
+
+.btn-danger {
   background-color: var(--danger-pastel);
   color: #ffffff;
 }
 
-/* RESPONSIVE */
-@media (min-width: 768px) {
-  .header {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
+.btn-danger:hover {
+  background-color: var(--danger-hover);
+}
 
-  .btn-reset {
-    width: auto;
-  }
+/* ==========================================================================
+   7. ANIMACIONES SUTILES
+   ========================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-  .grid-layout {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }

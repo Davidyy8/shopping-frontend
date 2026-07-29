@@ -19,6 +19,12 @@ export class AppComponent implements OnInit {
   customEmoji = '🛒';
   customComment = '';
 
+  // 🔴 ESTADO DEL MODAL DE CONFIRMACIÓN
+  showDeleteModal = false;
+  itemToDeleteId: number | null = null;
+  itemToDeleteName: string = '';
+  isResetAction = false; // Nos permite diferenciar si eliminamos un item o reiniciamos toda la lista
+
   ngOnInit() {
     this.shoppingService.loadCatalog();
     this.shoppingService.loadShoppingList();
@@ -59,15 +65,37 @@ export class AppComponent implements OnInit {
     this.shoppingService.updateItem(id, { comment: input.value });
   }
 
-  // Eliminar elemento de la lista activa
-  removeItem(id: number) {
-    this.shoppingService.deleteItem(id);
+  // 1. Abre el modal para confirmar eliminación de UN producto
+  confirmRemoveItem(id: number, name: string) {
+    this.isResetAction = false;
+    this.itemToDeleteId = id;
+    this.itemToDeleteName = name;
+    this.showDeleteModal = true;
   }
 
-  // Botón de Reiniciar / Finalizar Compra
+  // 2. Abre el modal para confirmar la Limpieza/Reinicio de TODA la lista
   onResetList() {
-    if (confirm('¿Deseas finalizar la compra y vaciar toda la lista?')) {
+    this.isResetAction = true;
+    this.itemToDeleteName = 'toda la lista de la compra';
+    this.showDeleteModal = true;
+  }
+
+  // 3. Cancela la acción del modal
+  cancelDelete() {
+    this.showDeleteModal = false;
+    this.itemToDeleteId = null;
+    this.itemToDeleteName = '';
+    this.isResetAction = false;
+  }
+
+  // 4. Ejecuta la eliminación según el tipo de acción seleccionada
+  executeDelete() {
+    if (this.isResetAction) {
       this.shoppingService.resetList();
+    } else if (this.itemToDeleteId !== null) {
+      this.shoppingService.deleteItem(this.itemToDeleteId);
     }
+
+    this.cancelDelete(); // Cierra y limpia el modal
   }
 }

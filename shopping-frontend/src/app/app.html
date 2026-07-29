@@ -1,7 +1,7 @@
 <div class="container">
   <header class="header">
     <div class="header-title">
-      <h1>🛒 Lista de la Compra</h1>
+      <h1> Lista de la Compra</h1>
       <span class="badge" *ngIf="shoppingService.shoppingList().length > 0">
         {{ shoppingService.shoppingList().length }} items
       </span>
@@ -9,7 +9,7 @@
 
     @if (shoppingService.shoppingList().length > 0) {
       <button class="btn-reset" (click)="onResetList()">
-        🎉 Finalizar Compra
+         Finalizar Compra
       </button>
     }
   </header>
@@ -17,7 +17,7 @@
   <main class="grid-layout">
     <!-- SECCIÓN 1: CATÁLOGO RÁPIDO & AÑADIR -->
     <section class="card">
-      <h2>⚡ Catálogo Rápido</h2>
+      <h2> Catálogo Rápido</h2>
       <div class="catalog-grid">
         @for (item of shoppingService.catalog(); track item.id) {
           <button class="catalog-btn" (click)="addFromCatalog(item)">
@@ -29,7 +29,7 @@
 
       <hr class="divider" />
 
-      <h3>✨ ¿No está en la lista? Añade uno nuevo</h3>
+      <h3> ¿No está en la lista? Añade uno nuevo</h3>
       <form (submit)="addCustomItem()" class="custom-form">
         <div class="form-group row">
           <input
@@ -64,7 +64,7 @@
 
     <!-- SECCIÓN 2: LISTA DE LA COMPRA ACTIVA -->
     <section class="card">
-      <h2>🛍️ Mi Cesta ({{ shoppingService.shoppingList().length }})</h2>
+      <h2> Mi Cesta ({{ shoppingService.shoppingList().length }})</h2>
 
       @if (shoppingService.loading()) {
         <div class="status-msg">

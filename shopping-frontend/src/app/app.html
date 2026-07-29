@@ -1,9 +1,15 @@
 <div class="container">
   <header class="header">
-    <h1>🛒 Lista de la Compra</h1>
+    <div class="header-title">
+      <h1>🛒 Lista de la Compra</h1>
+      <span class="badge" *ngIf="shoppingService.shoppingList().length > 0">
+        {{ shoppingService.shoppingList().length }} items
+      </span>
+    </div>
+
     @if (shoppingService.shoppingList().length > 0) {
       <button class="btn-reset" (click)="onResetList()">
-        🎉 Finalizar Compra (Reiniciar)
+        🎉 Finalizar Compra
       </button>
     }
   </header>
@@ -11,7 +17,7 @@
   <main class="grid-layout">
     <!-- SECCIÓN 1: CATÁLOGO RÁPIDO & AÑADIR -->
     <section class="card">
-      <h2>Catálogo Rápido</h2>
+      <h2>⚡ Catálogo Rápido</h2>
       <div class="catalog-grid">
         @for (item of shoppingService.catalog(); track item.id) {
           <button class="catalog-btn" (click)="addFromCatalog(item)">
@@ -23,14 +29,14 @@
 
       <hr class="divider" />
 
-      <h3>¿No está en la lista? Añade uno personalizado</h3>
+      <h3>✨ ¿No está en la lista? Añade uno nuevo</h3>
       <form (submit)="addCustomItem()" class="custom-form">
         <div class="form-group row">
           <input
             type="text"
             [(ngModel)]="customEmoji"
             name="customEmoji"
-            placeholder="Emoji"
+            placeholder="🛒"
             class="input-emoji"
             maxLength="2"
           />
@@ -50,31 +56,39 @@
           placeholder="Nota / Comentario (ej: Desnatada, 1kg...)"
           class="input-text"
         />
-        <button type="submit" class="btn-add">+ Añadir a la Lista</button>
+        <button type="submit" class="btn-add">
+          <span>+</span> Añadir a la Cesta
+        </button>
       </form>
     </section>
 
     <!-- SECCIÓN 2: LISTA DE LA COMPRA ACTIVA -->
     <section class="card">
-      <h2>Mi Cesta Active ({{ shoppingService.shoppingList().length }})</h2>
+      <h2>🛍️ Mi Cesta ({{ shoppingService.shoppingList().length }})</h2>
 
       @if (shoppingService.loading()) {
-        <p class="status-msg">Cargando la lista...</p>
+        <div class="status-msg">
+          <div class="spinner"></div>
+          <p>Cargando tu cesta...</p>
+        </div>
       } @else if (shoppingService.shoppingList().length === 0) {
         <div class="empty-state">
-          <span>🧺</span>
-          <p>Tu cesta está vacía. Añade elementos desde el catálogo.</p>
+          <span class="empty-icon">🧺</span>
+          <p class="empty-title">Tu cesta está vacía</p>
+          <p class="empty-subtitle">Toca cualquier producto del catálogo para empezar a añadir.</p>
         </div>
       } @else {
         <ul class="shopping-list">
           @for (item of shoppingService.shoppingList(); track item.id) {
             <li class="shopping-item" [class.completed]="item.is_completed">
-              <input
-                type="checkbox"
-                [checked]="item.is_completed"
-                (change)="toggleCompleted(item.id, item.is_completed)"
-                class="checkbox"
-              />
+              <label class="custom-checkbox">
+                <input
+                  type="checkbox"
+                  [checked]="item.is_completed"
+                  (change)="toggleCompleted(item.id, item.is_completed)"
+                />
+                <span class="checkmark"></span>
+              </label>
 
               <span class="emoji">
                 {{ item.catalog_item?.emoji || item.custom_emoji }}
@@ -93,7 +107,11 @@
                 />
               </div>
 
-              <button class="btn-delete" (click)="removeItem(item.id)" title="Eliminar">
+              <button
+                class="btn-delete"
+                (click)="confirmRemoveItem(item.id, item.catalog_item?.name || item.custom_name || 'este producto')"
+                title="Eliminar"
+              >
                 🗑️
               </button>
             </li>
@@ -103,3 +121,25 @@
     </section>
   </main>
 </div>
+
+<!-- ============================================ -->
+<!-- MODAL DE CONFIRMACIÓN -->
+<!-- ============================================ -->
+@if (showDeleteModal) {
+  <div class="modal-backdrop" (click)="cancelDelete()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-icon">⚠️</div>
+      <h3>¿Estás seguro?</h3>
+      <p>Vas a borrar <strong>{{ itemToDeleteName }}</strong>.</p>
+
+      <div class="modal-actions">
+        <button (click)="cancelDelete()" class="btn-modal-cancel">
+          Cancelar
+        </button>
+        <button (click)="executeDelete()" class="btn-modal-delete">
+          Sí, eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+}
